@@ -1,0 +1,18 @@
+
+syntax = "proto3";
+
+package order;
+
+service OrderService {
+    rpc CreateOrder (OrderRequest) returns (OrderResponse);
+}
+
+message OrderRequest {
+    string id = 1;
+    double amount = 2;
+    string status = 3;
+}
+
+message OrderResponse {
+    bool success = 1;
+}
