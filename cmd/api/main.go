@@ -34,7 +34,7 @@ func main() {
 	})
 
 	var orderRepo outbound.OrderRepository
-	useKafka := false
+	useKafka := true
 	useRedis := true
 
 	// Choose which repository to use based on your needs
