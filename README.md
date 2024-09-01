@@ -6,15 +6,41 @@ This project demonstrates the Hexagonal Architecture (Ports and Adapters) patter
 
 ### Hexagonal Architecture: Ports and Adapters
 
-                        +-----------------+
-                        |  Primary Port   |
-                        | (e.g., REST API)|
-                        +--------+--------+
-                                 |
-                                 |
-    +------------+    +----------v----------+    +------------+
-    | Secondary  | <--|      Domain         |--->| Secondary  |
-    |   Adapter  |    |      Logic          |    |   Adapter  |
-    | (e.g., DB) |    +---------------------+    | (e.g., MQ) |
-    +------------+                                +------------+
+```mermaid
+graph LR
+    A[Inbound Port] -->|Interacts with| B(Domain Logic)
+    B -->|Uses| C[Outbound Port]
+    D[Inbound Adapter] -->|Implements| A
+    C -->|Implements| E[Outbound Adapter]
 
+    subgraph External Systems
+    E --> F[Database]
+    E --> G[Message Queue]
+    end
+
+    subgraph User Interface
+    D --> H[REST API]
+    end
+```
+
+# Key Concepts:
+
+**Inbound Port:** Defines the interface for how the outside world (e.g., users or other systems) interacts with the core business logic.
+
+**Outbound Port:** Defines the interface for how the core business logic interacts with external systems (e.g., databases, message queues).
+
+**Driving Adapter:** Implements the Inbound Port, handling inputs (like HTTP requests) and invoking the domain logic.
+
+**Driven Adapter:** Implements the Outbound Port, handling outputs (like saving data to a database) from the domain logic.
+
+# Getting Started
+
+**Clone the repository and run the project:**
+
+```
+git clone git@github-personal:trumboosahil/hexagonal_go.git
+cd hexagonal_go
+go mod tidy
+go run main.go
+
+```
