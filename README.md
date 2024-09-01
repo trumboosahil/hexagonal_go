@@ -8,8 +8,8 @@ This project demonstrates the Hexagonal Architecture (Ports and Adapters) patter
 
 ```mermaid
 graph LR
-    A[Inbound Port] -->|Interacts with| B(Domain Logic)
-    B -->|Uses| C[Outbound Port]
+    A[Inbound Port] --> B(Domain Logic)
+    B --> C[Outbound Port]
     D[Inbound Adapter] -->|Implements| A
     C -->|Implements| E[Outbound Adapter]
 
