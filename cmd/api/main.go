@@ -2,8 +2,11 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"net"
 	"net/http"
+	"os"
 
 	"github.com/go-redis/redis/v8"
 
@@ -18,10 +21,30 @@ import (
 	"hexagonal_go/internal/ports/outbound"
 )
 
+func connectToKafka(broker string) error {
+	conn, err := net.Dial("tcp", broker)
+	if err != nil {
+		// Log the detailed error for debugging
+		log.Printf("Error connecting to Kafka broker at %s: %v", broker, err)
+
+		// Return a simple error message with a possible solution
+		return fmt.Errorf("failed to connect to Kafka broker at %s. Please ensure the broker is running and accessible on the network", broker)
+	}
+	defer conn.Close()
+
+	fmt.Println("Successfully connected to Kafka broker at", broker)
+	return nil
+}
+
 func main() {
 	db, err := sql.Open("postgres", "host=localhost port=5434 user=user password=password dbname=mydb sslmode=disable")
 	if err != nil {
 		panic(err)
+	}
+	err1 := connectToKafka("localhost:9092")
+	if err1 != nil {
+		fmt.Fprintf(os.Stderr, "Application error: %v\n", err)
+		os.Exit(1)
 	}
 
 	writer := segmentio_kafka.Writer{
@@ -34,8 +57,8 @@ func main() {
 	})
 
 	var orderRepo outbound.OrderRepository
-	useKafka := true
-	useRedis := true
+	useKafka := false
+	useRedis := false
 
 	// Choose which repository to use based on your needs
 	if useKafka {
