@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"hexagonal_go/internal/domain/entities"
+	"hexagonal_go/internal/ports/outbound"
 	"log"
 
 	segmentio_kafka "github.com/segmentio/kafka-go"
@@ -13,7 +14,7 @@ type KafkaOrderRepository struct {
 	writer *segmentio_kafka.Writer
 }
 
-func NewKafkaOrderRepository(writer *segmentio_kafka.Writer) *KafkaOrderRepository {
+func NewKafkaOrderRepository(writer *segmentio_kafka.Writer) outbound.OrderRepository {
 	return &KafkaOrderRepository{writer: writer}
 }
 

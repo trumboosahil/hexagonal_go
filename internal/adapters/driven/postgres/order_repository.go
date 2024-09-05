@@ -3,13 +3,14 @@ package postgres
 import (
 	"database/sql"
 	"hexagonal_go/internal/domain/entities"
+	"hexagonal_go/internal/ports/outbound"
 )
 
 type PostgresOrderRepository struct {
 	db *sql.DB
 }
 
-func NewPostgresOrderRepository(db *sql.DB) *PostgresOrderRepository {
+func NewPostgresOrderRepository(db *sql.DB) outbound.OrderRepository {
 	return &PostgresOrderRepository{db: db}
 }
 
