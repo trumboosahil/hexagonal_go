@@ -31,7 +31,7 @@ graph LR
 
 **Driving Adapter:** Implements the Inbound Port, handling inputs (like HTTP requests) and invoking the domain logic.
 
-**Driven Adapter:** Implements the Outbound Port, handling outputs (like saving data to a database) from the domain logic.
+**Driven Adapter:** Implements the Outbound Port, handling outputs (like saving data to a database) or kafka from the domain logic.
 
 # Getting Started
 
